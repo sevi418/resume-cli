@@ -67,6 +67,35 @@ scoop install poppler
 
 安装后确保 `pdftotext` 在 PATH 中（Windows 下通常为 `pdftotext.exe`）。
 
+### 从 Release 下载
+
+不想编译源码时，可直接从 [GitHub Releases](https://github.com/sevi418/resume-cli/releases) 下载预编译二进制：
+
+| 平台 | 文件 |
+|------|------|
+| macOS (Apple Silicon) | `resume-cli-darwin-arm64` |
+| macOS (Intel) | `resume-cli-darwin-amd64` |
+| Linux (amd64) | `resume-cli-linux-amd64` |
+| Linux (arm64) | `resume-cli-linux-arm64` |
+| Windows | `resume-cli-windows-amd64.exe` |
+
+**macOS / Linux**
+
+```bash
+chmod +x resume-cli-darwin-arm64   # 按你的平台替换文件名
+./resume-cli-darwin-arm64 --help
+./resume-cli-darwin-arm64 extract ./testdata/01_zh_fullstack_senior.pdf --mock
+```
+
+**Windows (PowerShell)**
+
+```powershell
+.\resume-cli-windows-amd64.exe --help
+.\resume-cli-windows-amd64.exe extract .\testdata\01_zh_fullstack_senior.pdf --mock
+```
+
+可将二进制重命名为 `resume-cli` 并加入 PATH，之后直接使用 `resume-cli` 命令。
+
 ### 从源码构建
 
 ```bash
@@ -325,6 +354,23 @@ make test     # 运行测试
 make lint     # 代码检查
 make setup-env # 创建 .env（若不存在）
 make clean    # 清理构建产物
+```
+
+打包 Release 二进制（上传至 GitHub Releases）：
+
+```bash
+mkdir -p dist
+
+GOOS=darwin  GOARCH=arm64  go build -o dist/resume-cli-darwin-arm64 .
+GOOS=darwin  GOARCH=amd64  go build -o dist/resume-cli-darwin-amd64 .
+GOOS=linux   GOARCH=amd64  go build -o dist/resume-cli-linux-amd64 .
+GOOS=linux   GOARCH=arm64  go build -o dist/resume-cli-linux-arm64 .
+GOOS=windows GOARCH=amd64  go build -o dist/resume-cli-windows-amd64.exe .
+
+gh release create v0.1.0 \
+  --title "v0.1.0" \
+  --notes "AI 简历解析 CLI Demo" \
+  dist/*
 ```
 
 ---
