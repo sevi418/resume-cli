@@ -43,10 +43,14 @@ make build
 
 ### 前置要求
 
-- Go 1.21+ — [下载安装](https://go.dev/dl/)
-- （可选）[poppler](https://poppler.freedesktop.org/) — 启用 `pdftotext` 降级方案，提升 PDF 兼容性
+| 依赖 | Release 二进制 | 源码构建 | 说明 |
+|------|:------------:|:--------:|------|
+| Go 1.21+ | 不需要 | 需要 | 仅编译时需要 |
+| [poppler](https://poppler.freedesktop.org/) | 可选 | 可选 | 启用 `pdftotext` 降级，提升 PDF 兼容性 |
+| `OPENAI_API_KEY` | 非 mock 时需要 | 非 mock 时需要 | 可用 `--mock` 跳过 |
+| PDF / JD 文件 | 需要 | 需要 | 自备简历 PDF；`score` 还需 JD 文本文件 |
 
-**安装 poppler（可选）**
+**安装 poppler（可选，两种安装方式相同）**
 
 ```bash
 # macOS
@@ -65,11 +69,11 @@ choco install poppler
 scoop install poppler
 ```
 
-安装后确保 `pdftotext` 在 PATH 中（Windows 下通常为 `pdftotext.exe`）。
+安装后确保 `pdftotext` 在 PATH 中（Windows 下通常为 `pdftotext.exe`）。未安装时仍可使用纯 Go PDF 解析，只是部分复杂 PDF 可能提取为空。
 
 ### 从 Release 下载
 
-不想编译源码时，可直接从 [GitHub Releases](https://github.com/sevi418/resume-cli/releases) 下载预编译二进制：
+不想编译源码时，可直接从 [GitHub Releases](https://github.com/sevi418/resume-cli/releases) 下载预编译二进制，**无需安装 Go**。
 
 | 平台 | 文件 |
 |------|------|
@@ -79,24 +83,30 @@ scoop install poppler
 | Linux (arm64) | `resume-cli-linux-arm64` |
 | Windows | `resume-cli-windows-amd64.exe` |
 
+下载后使用自己的 PDF 和 JD 文件即可运行；若需要仓库内的示例数据，可单独 clone 仓库获取 `testdata/`。
+
 **macOS / Linux**
 
 ```bash
 chmod +x resume-cli-darwin-arm64   # 按你的平台替换文件名
 ./resume-cli-darwin-arm64 --help
-./resume-cli-darwin-arm64 extract ./testdata/01_zh_fullstack_senior.pdf --mock
+./resume-cli-darwin-arm64 extract ./my-resume.pdf --mock
+./resume-cli-darwin-arm64 score ./my-resume.pdf --jd ./jd.txt --mock
 ```
 
 **Windows (PowerShell)**
 
 ```powershell
 .\resume-cli-windows-amd64.exe --help
-.\resume-cli-windows-amd64.exe extract .\testdata\01_zh_fullstack_senior.pdf --mock
+.\resume-cli-windows-amd64.exe extract .\my-resume.pdf --mock
+.\resume-cli-windows-amd64.exe score .\my-resume.pdf --jd .\jd.txt --mock
 ```
 
-可将二进制重命名为 `resume-cli` 并加入 PATH，之后直接使用 `resume-cli` 命令。
+可将二进制重命名为 `resume-cli` 并加入 PATH，之后直接使用 `resume-cli` 命令。环境变量配置方式与源码构建相同，见下方「环境变量」章节。
 
 ### 从源码构建
+
+需要 Go 1.21+。
 
 ```bash
 git clone https://github.com/sevi418/resume-cli.git
