@@ -2,6 +2,8 @@
 # https://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore
 #
 # Binaries for programs and plugins
+resume-cli
+resume-cli.exe
 *.exe
 *.exe~
 *.dll
@@ -20,13 +22,29 @@ profile.cov
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
+# Local run outputs
+/result.json
+/score.json
+/parse.txt
+/resume.txt
+
+# Logs and temporary files
+*.log
+tmp/
+temp/
+
 # Go workspace file
 go.work
 go.work.sum
 
-# env file
+# Environment files
 .env
+.env.*
+!.env.example
 
 # Editor/IDE
 # .idea/
 # .vscode/
+
+# OS files
+.DS_Store
