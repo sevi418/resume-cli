@@ -232,14 +232,18 @@ resume-cli/
 ├── cmd/                # Cobra 命令定义（root / parse / extract / score）
 ├── internal/
 │   ├── pdf/            # PDF 文本提取（Go 解析 + pdftotext 降级）
-│   ├── ai/            # AI 客户端、extract、score、mock
-│   ├── model/         # Resume、Score 数据模型与校验
-│   └── util/          # JSON 修复、输出、.env 加载
+│   ├── ai/             # AI 客户端、extract、score、mock
+│   ├── model/          # Resume、Score 数据模型与校验
+│   └── util/           # JSON 修复、输出、.env 加载
 ├── testdata/           # 示例 PDF（中英文多档位）与 sample_jd.txt
+├── cli_test.go         # CLI 端到端测试
 ├── main.go
+├── go.mod
+├── go.sum
 ├── Makefile
 ├── Dockerfile
-└── .env.example
+├── .env.example
+└── README.md
 ```
 
 ## 开发
