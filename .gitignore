@@ -4,6 +4,7 @@
 # Binaries for programs and plugins
 resume-cli
 resume-cli.exe
+dist/
 *.exe
 *.exe~
 *.dll
